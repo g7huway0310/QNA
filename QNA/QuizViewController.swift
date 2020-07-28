@@ -11,21 +11,19 @@ import UIKit
 class QuizViewController: UIViewController {
 
     @IBOutlet weak var QuizLabel: UILabel!
-   
     @IBOutlet var Option: [UIButton]!
-    
-    @IBOutlet weak var ProgressView: UIProgressView!
-    
+    @IBOutlet weak var ProgressView: UIProgressView! //進度條
     @IBOutlet weak var TimeLabel: UILabel!
     @IBOutlet weak var ScoreLabel: UILabel!
-    var NumberQuiz=0
-    var TestProgress:Float=0.0
-    let formatter = DateComponentsFormatter()
-    var Timecounter: TimeInterval = 300
-    var QuizNumberarray=[0,1,2,3,4,5,6,7,8,9,10,11,12,13]
-    var array:[Int]=[]
-    var score=0
-    var timer=Timer()
+    
+    var NumberQuiz=0 //目前為止第幾題
+    var TestProgress:Float=0.0//Progress
+    var QuizNumberarray=[0,1,2,3,4,5,6,7,8,9,10,11,12,13] //題目總數Array
+    var array:[Int]=[]//Array 準備存入shuffled後的Array
+    let formatter = DateComponentsFormatter() //使用formatter 方便轉換時間
+    var Timecounter: TimeInterval = 300 //設定答題時間（單位秒數）
+    var score=0 //紀錄得分
+    var timer=Timer() //計時器
     var Quizs=[Quiz(Quiz: "第一隻iPhone販售時間?", Answer: "2007.6.29", choice:["2007.7.1","2007.7.10","2007.7.11","2007.6.29"]),
                Quiz(Quiz: "首次搭載指紋辨識的iPhone?", Answer: "iPhone 5S", choice:["iPhone 5S","iPhone 5","iPhone 4S","iPhone 4"]),
                Quiz(Quiz: "蘋果何時創立？", Answer: "1976.4.1", choice:["1984.1.1","1976.4.1","1980.12.9","1975.7.4"]),
@@ -51,11 +49,18 @@ class QuizViewController: UIViewController {
         ScoreLabel.text="得分:\(score)"
         ProgressView.progress=TestProgress
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         array=QuizNumberarray.shuffled()
+        print(array)
+        
         timer=Timer.scheduledTimer(timeInterval: 1, target: self, selector:#selector(runTimer) , userInfo: nil, repeats:true)
-        ProgressView.transform=CGAffineTransform(scaleX: 1, y: 4)
+        
+        
+        
+        ProgressView.transform=CGAffineTransform(scaleX: 1, y: 4) //修改Progress樣式
         
         ChangeQuiz()
         Option[0].layer.borderColor=UIColor.white.cgColor
@@ -64,7 +69,7 @@ class QuizViewController: UIViewController {
         Option[3].layer.borderColor=UIColor.white.cgColor
         // Do any additional setup after loading the view.
     }
-  
+    // 點擊答案按鈕
     @IBAction func AnswerQuizBtn(_ sender: UIButton) {
         if let okAnswer=sender.currentTitle {
             print(okAnswer)
@@ -78,7 +83,7 @@ class QuizViewController: UIViewController {
     NumberQuiz=NumberQuiz+1
     TestProgress=TestProgress+0.1
             
-    if NumberQuiz>9{
+    if NumberQuiz>9{ //當答題到10題切換畫面顯示分數
       GotoResult()
     }
             

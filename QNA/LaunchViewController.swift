@@ -14,22 +14,21 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        DispatchQueue.main.asyncAfter(deadline: .now()+0.2, execute: {self.animate()
-        })
+        
+       DispatchQueue.main.asyncAfter(deadline: .now()+0.2, execute: {self.animate()
+                      })
+             
         // Do any additional setup after loading the view.
     }
-    override func viewDidLayoutSubviews() {
-       
-    }
     private func animate(){
-        UIView.animate(withDuration: 1, animations: {
-            let size=self.view.frame.size.width*3
-            let diffx=size - self.view.frame.size.width
-            let diffy=self.view.frame.size.height-size
-            self.imageView.frame=CGRect(
-                x: -(diffx/2),
-                y: diffy/2,
+        UIView.animate(withDuration: 1, animations: { //設定動畫時間1秒
+            let size=self.view.frame.size.width*3 //設定變寬3倍
+            let diffx=size - self.view.frame.size.width //設定x位置
+            let diffy=self.view.frame.size.height-size //y位置
+            
+            self.imageView.frame=CGRect(       //更新後imageView的尺寸
+                x: -(diffx/2),  //使imageView保持在中心
+                y: diffy/2,   //使imageView保持在中心
                 width: size,
                 height: size)
         })
@@ -44,7 +43,7 @@ class LaunchViewController: UIViewController {
                 let controller = storyboard.instantiateViewController(withIdentifier:"QuizViewController") as! QuizViewController
                 controller.modalTransitionStyle = .crossDissolve //設轉場為交叉淡化
                 controller.modalPresentationStyle = .fullScreen //設定present為全螢幕
-                 self.present(controller, animated: true)
+                 self.present(controller, animated: true) //present轉到QuizVC
                 
             }
         })
